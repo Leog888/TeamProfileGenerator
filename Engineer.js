@@ -1,10 +1,27 @@
-class engineer {
+class Engineer {
     constructor(name, id, email, github){
-    this.name = name;
-    this.id = id;
-    this.email = email;
-    this.github = github;
+      if (!name || !id || !email || !github){
+        throw new Error('Please insert all arguments for Engineer class!')
+      } else {
+        this.name = name;
+        this.id = id;
+        this.email = email;
+        this.github = github;
+        this.role = 'Engineer'
+      }
     }
-}
-
-module.exports = engineer;
+    getRole(){
+      return this.role;
+    }
+    getId(){
+      return this.id;
+    }
+    getEmail(){
+      return this.email;
+    }
+    getGithub(){
+      return this.github;
+    }
+  }
+  
+  module.exports = Engineer;

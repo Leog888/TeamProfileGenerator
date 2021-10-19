@@ -97,3 +97,49 @@ const internQuestions = [
   required: 'true'
 },
 ]
+
+/////////////////////////////////////////////////////////////////////////////////////
+const myTeam = new Team()
+
+function createHTML(data){
+  generateHTML(data);
+}
+
+function otherPrompts(choice) {
+  if (choice === 'Engineer') {
+    inquirer.prompt(engineerQuestions)
+      .then(result => {
+        let engineer = new Engineer(result.name, result.id, result.email, result.github)
+        myTeam.addEngineer(engineer)
+        choices()
+      })
+  } else if (choice === 'Intern'){
+    inquirer.prompt(internQuestions)
+      .then(result => {
+        let intern = new Intern(result.name, result.id, result.email, result.school)
+        myTeam.addIntern(intern)
+        choices()
+      })
+  } else {
+    console.log('Complete!')
+    createHTML(JSON.stringify(myTeam));
+  }
+};
+
+const choices = _=> {
+  inquirer.prompt(nextChoice)
+    .then(choiceObj => {return choiceObj.nextChoice})
+    .then(choice => otherPrompts(choice))
+};
+
+function init(){
+  inquirer.prompt(managerQuestions)
+  .then(response => {
+    const newMan = new Manager(response.managerName, response.managerId, response.managerEmail, response.managerOffice)
+    myTeam.setManager(newMan)
+    choices();
+  })
+  .catch(err=> {throw new Error(err)})
+};
+
+init()
